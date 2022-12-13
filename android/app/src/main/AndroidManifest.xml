@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kosukesaigusa.flutterGitHubSearch.flutter_github_search">
+    package="com.example.flutter_assignment">
    <application
         android:label="flutter_github_search"
         android:name="${applicationName}"

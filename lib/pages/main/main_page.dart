@@ -43,35 +43,10 @@ class _MainPageState extends ConsumerState<MainPage> with WidgetsBindingObserver
             body: Stack(
               children: [for (final tab in bottomTabs) _buildStackedPages(tab)],
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Theme.of(context).colorScheme.primary,
-              onTap: _onTap,
-              currentIndex: ref.watch(bottomTabStateProvider).index,
-              items: bottomTabs
-                  .map(
-                    (b) => BottomNavigationBarItem(
-                      icon: Icon(b.iconData),
-                      label: b.label,
-                    ),
-                  )
-                  .toList(),
-            ),
           ),
         ],
       ),
     );
-  }
-
-  void _onTap(int index) {
-    FocusScope.of(context).unfocus();
-    final bottomTab = BottomTab.getByIndex(index);
-    final currentBottomTab = ref.watch(bottomTabStateProvider);
-    if (bottomTab == currentBottomTab) {
-      bottomTab.key.currentState!.popUntil((route) => route.isFirst);
-      return;
-    }
-    ref.read(bottomTabStateProvider.notifier).update((state) => bottomTab);
   }
 
   Widget _buildStackedPages(BottomTab bottomTab) {

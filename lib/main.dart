@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'app.dart';
 import 'utils/provider_scope.dart';
 import 'widgets/root.dart';

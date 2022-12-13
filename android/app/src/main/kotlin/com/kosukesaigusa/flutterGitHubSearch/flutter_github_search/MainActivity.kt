@@ -1,4 +1,4 @@
-package com.kosukesaigusa.flutterGitHubSearch.flutter_github_search
+package com.example.flutter_assignment
 
 import io.flutter.embedding.android.FlutterActivity
 
