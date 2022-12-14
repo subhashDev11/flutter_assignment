@@ -8,13 +8,7 @@ import '../../utils/api.dart';
 import '../../utils/exceptions/api_exceptions.dart';
 import 'search_repo_state.dart';
 
-/// GitHub リポジトリの検索条件や検索結果を操作・保持する
-/// StateNotifier を提供するプロバイダ。
-/// 検索ワードやページャなどのそれぞれの要素が互いに割と複雑に影響しあっているので、
-/// バラバラの StateProvider や FutureProvider で記述していたのから、
-/// StateNotifier で記述することにした。
-final searchRepoStateNotifierProvider =
-    StateNotifierProvider.autoDispose<SearchRepoStateNotifier, SearchRepoState>(
+final searchRepoStateNotifierProvider = StateNotifierProvider.autoDispose<SearchRepoStateNotifier, SearchRepoState>(
   (ref) => SearchRepoStateNotifier(ref.read),
 );
 
@@ -25,10 +19,8 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
 
   final Reader _read;
 
-  /// ListView.builder に指定するスクロールコントローラ
   final scrollController = ScrollController();
 
-  /// GET /search/repositories API をコールして検索結果をstate に保持する
   Future<void> _searchRepositories() async {
     if (state.q.isEmpty) {
       state = state.copyWith(loading: false, error: FetchResponseError.emptyQ);
@@ -59,7 +51,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     }
   }
 
-  /// 検索ワードを変更して再度 Search Repository API をコールする
   void updateSearchWord(String q) {
     state = state.copyWith(q: q, currentPage: 1, repos: <Repo>[]);
     _resetPagerStatus();
@@ -67,7 +58,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     _searchRepositories();
   }
 
-  /// 前のページへ
   void showPreviousPage() {
     if (state.currentPage < 2) {
       return;
@@ -78,7 +68,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     _searchRepositories();
   }
 
-  /// 次のページへ
   void showNextPage() {
     if (state.currentPage >= state.maxPage) {
       return;
@@ -89,7 +78,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     _searchRepositories();
   }
 
-  /// GET /search/repository の結果に応じて更新すべき状態を更新する
   void _updateStateByResponse(SearchRepoResponse response) {
     state = state.copyWith(
       totalCount: response.totalCount,
@@ -99,7 +87,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     _resetPagerStatus();
   }
 
-  /// ページャに関わる状態を更新する
   void _resetPagerStatus() {
     state = state.copyWith(
       canShowPreviousPage: state.currentPage > 1,
@@ -107,7 +94,6 @@ class SearchRepoStateNotifier extends StateNotifier<SearchRepoState> {
     );
   }
 
-  /// ページ切替時に ListView の上までスクロールする
   void _animateToTop() {
     if (!scrollController.hasClients) {
       return;

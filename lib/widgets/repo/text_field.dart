@@ -30,17 +30,36 @@ class _RepoPageTextFieldState extends ConsumerState<RepoPageTextField> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(searchRepoStateNotifierProvider);
+    final notifier = ref.read(searchRepoStateNotifierProvider.notifier);
     return TextField(
       controller: _textEditingController,
       onChanged: (q) => debounce.run(
-        () => ref.read(searchRepoStateNotifierProvider.notifier).updateSearchWord(q),
+        () => notifier.updateSearchWord(q),
       ),
       maxLines: 1,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.search),
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-      ),
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          prefixIcon: const Icon(Icons.search),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 16,
+          ),
+          fillColor: const Color.fromARGB(251, 248, 248, 255),
+          filled: true,
+          hintText: 'Search some user',
+          suffixIcon: Visibility(
+            visible: state.q.isNotEmpty,
+            child: IconButton(
+              onPressed: () {
+                notifier.updateSearchWord('');
+                _textEditingController.text = '';
+              },
+              icon: const Icon(Icons.close),
+            ),
+          )),
     );
   }
 }

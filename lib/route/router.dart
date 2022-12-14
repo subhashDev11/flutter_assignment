@@ -20,22 +20,15 @@ class Router {
     debugPrint('***');
     debugPrint('path: $path');
 
-    // path に ? がついている場合は、それ以降をクエリストリングとみなし、
-    // 分割して `queryParams` というマップに追加する。
-    // path は ? 以前の文字列で上書きしておく。
-    // 現状 fullScreenDialog=true くらいしか使いみちはない。
     var queryParams = emptyMap;
     if (path.contains('?')) {
       queryParams = Uri.parse(path).queryParameters;
       path = path.split('?').first;
     }
 
-    // ページに渡す引数の Map<String, dynamic>
     final data = (routeSettings.arguments as RouteArguments?)?.data ?? emptyMap;
 
     try {
-      // appRoutes の各要素のパスに一致する AppRoute を見つけて
-      // 遷移先の Widget の MaterialPageRoute を返す
       final appRoute = _read(appRoutesProvider).firstWhere(
         (appRoute) => appRoute.path == path,
         orElse: () => throw RouteNotFoundException(path),
@@ -55,7 +48,6 @@ class Router {
     }
   }
 
-  /// onGenerateRoute と同じ引数を受けてパスを決定する。
   String _path(RouteSettings routeSettings, {String? bottomNavigationPath}) {
     final path = routeSettings.name;
     if (path == null) {

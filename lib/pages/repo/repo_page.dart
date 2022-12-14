@@ -25,17 +25,18 @@ class RepoPage extends HookConsumerWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(251, 248, 248, 255),
         appBar: AppBar(
-          title: const Text('Repos'),
+          toolbarHeight: 90,
+          title: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: RepoPageTextField(),
+          ),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Gap(16),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: RepoPageTextField(),
-            ),
             SearchRepoContentWidget(),
           ],
         ),
@@ -51,11 +52,27 @@ class SearchRepoContentWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(searchRepoStateNotifierProvider);
     final notifier = ref.watch(searchRepoStateNotifierProvider.notifier);
+    final size = MediaQuery.of(context).size;
     return Expanded(
       child: state.loading
           ? const PrimarySpinkitCircle()
           : state.repos.isEmpty
-              ? const CommonTextWidget(emptyQMessage)
+              ? Center(
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/content_not_found.png',
+                      height: size.width * 0.8,
+                      width: size.width * 0.7,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const CommonTextWidget(emptyQMessage),
+                  ],
+                ))
               : ListView.builder(
                   controller: ref.watch(searchRepoStateNotifierProvider.notifier).scrollController,
                   itemCount: state.repos.length + 2,
@@ -81,6 +98,7 @@ class SearchRepoContentWidget extends HookConsumerWidget {
                       return RepoItemWidget(repo: state.repos[index - 1]);
                     }
                   },
+                  physics: const BouncingScrollPhysics(),
                 ),
     );
   }

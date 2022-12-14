@@ -18,6 +18,7 @@ class RepoItemWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: () async {
         final urlString = repo.htmlUrl;
@@ -28,13 +29,26 @@ class RepoItemWidget extends HookConsumerWidget {
           ref.read(scaffoldMessengerServiceProvider).showSnackBar('URL could not be opened：$urlString');
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              theme.primaryColor.withOpacity(0.2),
+              theme.primaryColor.withOpacity(0.7),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const FaIcon(FontAwesomeIcons.github),
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(repo.owner.avatarUrl),
+            ),
             const Gap(8),
             Expanded(
               child: Column(
@@ -67,41 +81,6 @@ class RepoItemWidget extends HookConsumerWidget {
                   ),
                 ],
               ),
-            ),
-            const Gap(8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.star, size: 12),
-                    const Gap(4),
-                    Text(
-                      repo.starGazersCount.withComma,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(4),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const FaIcon(FontAwesomeIcons.codeFork, size: 12),
-                    const Gap(4),
-                    Text(
-                      repo.forksCount.withComma,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
             ),
           ],
         ),

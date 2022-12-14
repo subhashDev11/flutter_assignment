@@ -6,13 +6,11 @@ part 'response_result.freezed.dart';
 
 @freezed
 class ResponseResult with _$ResponseResult {
-  /// 成功
   const factory ResponseResult.success({
     required BaseResponseData data,
   }) = Success;
 
-  /// 失敗
   const factory ResponseResult.failure({
-    @Default('サーバとの通信に失敗しました。') String message,
+    @Default('Communication with the server failed.') String message,
   }) = Failure;
 }

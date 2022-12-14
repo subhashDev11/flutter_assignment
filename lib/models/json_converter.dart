@@ -12,8 +12,6 @@ class BaseResponseDataConverter implements JsonConverter<Map<String, dynamic>, d
       return emptyMap;
     }
     if (data is List) {
-      // データがリストである場合は
-      // 'items' のキーをつけて Map<String, List<dynamic>> にする。
       return <String, List<dynamic>>{'items': data};
     }
     return data as Map<String, dynamic>;

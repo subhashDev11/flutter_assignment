@@ -14,7 +14,13 @@ class App extends StatelessWidget {
       localizationsDelegates: localizationsDelegates,
       supportedLocales: const [locale],
       title: 'Flutter assignment',
-      theme: ThemeData(primarySwatch: Colors.blue).copyWith(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: const Color.fromRGBO(49, 35, 46, 1),
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+              backgroundColor: const Color.fromRGBO(49, 35, 46, 1),
+            ),
+      ).copyWith(),
       home: const ScaffoldMessengerNavigator(),
       builder: (context, child) {
         return MediaQuery(

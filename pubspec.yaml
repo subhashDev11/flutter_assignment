@@ -48,6 +48,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/json/env/
     - assets/json/mock/repos/
     - assets/json/mock/search/
+    - assets/images/

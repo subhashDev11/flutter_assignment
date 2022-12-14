@@ -3,7 +3,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'application_documents_directory.dart';
 
-/// CookieJar のプロバイダ
 final cookieJarProvider = Provider<CookieJar>(
   (ref) => PersistCookieJar(
     ignoreExpires: true,

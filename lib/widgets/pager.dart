@@ -25,7 +25,7 @@ class PagerWidget extends StatelessWidget {
         ),
         TextButton(
           onPressed: canShowNextPage ? showNextPage : null,
-          child: const Text('Following page'),
+          child: const Text('Next page'),
         ),
       ],
     );
